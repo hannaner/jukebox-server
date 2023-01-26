@@ -22,6 +22,8 @@ router.post('/sign-up', (req, res, next) => {
         .catch(next)
 })
 
+// LOGIN
+// POST /login
 router.post('/login', (req, res, next) => {
     User.findOne({ email: req.body.credentials.email })
         .then(user => createUserToken(req, user))
