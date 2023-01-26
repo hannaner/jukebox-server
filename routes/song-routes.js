@@ -17,8 +17,6 @@ router.get('/songs', requireToken, (req, res, next) => {
 router.post('/songs', requireToken, (req, res, next) => {
     const playlistId = req.body.song.playlistId
 
-    console.log(req.user)
-
     const song = req.body.song
     
     Playlist.findById(playlistId)
@@ -35,12 +33,14 @@ router.post('/songs', requireToken, (req, res, next) => {
 })
 
 
-
 // DELETE
 // DELETE /songs/:songId
 router.delete('/songs/:songId', (req, res, next) => {
+    console.log(req.body)
     const playlistId = req.body.song.playlistId
     
+    console.log(playlistId)
+
     Playlist.findById(playlistId)
     .then(handle404)
     .then(playlist => {

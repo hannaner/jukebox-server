@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-require('mongoose-type-url')
 const Schema = mongoose.Schema
 
 const songSchema = new Schema(
@@ -12,11 +11,9 @@ const songSchema = new Schema(
             type: String,
             required: true
         },
-        url: {
-            link: {
-                type: mongoose.SchemaTypes.Url,
-                required: true
-            }
+        link: {
+            type: String,
+            required: true
         }
     }, {
         timestamps: true
