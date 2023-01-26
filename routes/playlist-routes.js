@@ -1,5 +1,6 @@
 const express = require('express')
-
+const { handle404 } = require('../lib/custom-errors')
+const { requireToken } = require('../config/auth')
 const Playlist = require('../models/playlist')
 
 const router = express.Router()
@@ -14,3 +15,14 @@ router.get('/playlist', (req, res, next) => {
     .then((playlists) => res.status(200).json({ playlists: playlists }))
     .catch(next)
 })
+
+// CREATE
+// POST /playlist
+router.post('/playlist', requireToken, (req, res, next) => {
+    Playlist.create(req.body.playlist)
+        .then((playlist) => {
+            res.status(201).json({ playlist: playlist })
+        })
+})
+
+module.exports = router
