@@ -1,7 +1,12 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const { handle404 } = require('../lib/custom-errors')
 const { requireToken } = require('../config/auth')
 const Playlist = require('../models/playlist')
+
+// not sure if this is necessary? but it seems like i need to create the song model here so that it can be indexed within the playlist....?
+const songSchema = require('../models/song')
+const Song = mongoose.model('Song', songSchema)
 
 const router = express.Router()
 
@@ -29,12 +34,20 @@ router.get('/playlists/:playlistId', requireToken, (req, res, next) => {
 // POST /playlists
 router.post('/playlists', requireToken, (req, res, next) => {
     const playlist = req.body.playlist
-
     playlist.owner = req.user._id
-    Playlist.create(req.body.playlist)
-        .then((playlist) => {
-            res.status(201).json({ playlist: playlist })
+    
+    Song.find()
+        .then((songs) => {
+            return songs.map((song) => song)
         })
+        .then(() => {
+            Playlist.create(req.body.playlist)
+                .then((playlist) => {
+                    res.status(201).json({ playlist: playlist })
+                })
+        })
+        .catch(next)
+
 })
 
 // UPDATE
