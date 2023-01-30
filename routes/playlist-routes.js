@@ -9,7 +9,9 @@ const router = express.Router()
 // INDEX 
 // GET /playlists
 router.get('/playlists', requireToken, (req, res, next) => {
-    Playlist.find()
+    Playlist.find({
+        'owner': req.user._id
+    })
     .then((playlists) => {
         return playlists.map((playlist) => playlist)
     })
