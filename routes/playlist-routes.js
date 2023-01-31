@@ -22,11 +22,13 @@ router.get('/playlists', requireToken, (req, res, next) => {
 // SHOW
 // GET /playlists/:playlistId
 router.get('/playlists/:playlistId', requireToken, (req, res, next) => {
-    Playlist.findById(req.params.playlistId)
+    Playlist.findById(req.params.playlistId).populate('songs')
         .then(handle404)
-        .then((playlist) => res.status(200).json({ playlist: playlist }))
+        .then((playlist) => {
+            res.status(200).json({ playlist: playlist })})
         .catch(next)
 })
+
 
 // CREATE
 // POST /playlists
