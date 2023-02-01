@@ -46,7 +46,7 @@ router.post('/playlists', requireToken, (req, res, next) => {
 // UPDATE
 // PATCH /playlists/:playlistId
 router.patch('/playlists/:playlistId', requireToken, (req, res, next) => {
-    Playlist.findById(req.params.playlistId)
+    Playlist.findById(req.params.playlistId).populate('songs')
         .then(handle404)
         .then((playlist) => {
             return playlist.updateOne(req.body.playlist)
