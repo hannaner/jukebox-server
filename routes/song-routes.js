@@ -35,7 +35,8 @@ router.post('/songs', requireToken, (req, res, next) => {
 
 // DELETE
 // DELETE /songs/:songId
-router.delete('/songs/:songId', (req, res, next) => {
+router.delete('/songs/:songId', requireToken, (req, res, next) => {
+    console.log(req.body)
     const playlistId = req.body.song.playlistId
     
     Playlist.findById(playlistId).populate('songs')
