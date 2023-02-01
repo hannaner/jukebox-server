@@ -41,7 +41,6 @@ router.delete('/songs/:songId', (req, res, next) => {
     Playlist.findById(playlistId).populate('songs')
     .then(handle404)
     .then(playlist => {
-        // finding the correct song to remove
         // set constant to identify which index the song to delete is
         let deleteSong
 
